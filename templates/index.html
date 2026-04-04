@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fórum ELF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header>
+    <h1>ELF</h1>
+</header>
+
+<h2>Boards</h2>
+
+<ul>
+    {% for b in boards %}
+        <li>
+            <a href="/{{b}}">/{{b}}/</a>
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

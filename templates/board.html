@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>/{{board}}/ - ELF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .delete-btn {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        .filter-form {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .filter-form input {
+            margin: 0 5px;
+            padding: 3px 5px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>ELF</h1>
+</header>
+
+<h2>/{{board}}/</h2>
+
+<!-- FORMULÁRIO DE CRIAR THREAD -->
+<form method="POST" enctype="multipart/form-data">
+    <textarea name="content" placeholder="Escreva algo..."></textarea>
+    <br>
+    <input type="file" name="image">
+    <br>
+    <button>Criar Thread</button>
+</form>
+
+<!-- FILTRO DE DATAS E PESQUISA -->
+<form method="GET" class="filter-form">
+    <label>De: <input type="date" name="start_date" value="{{ start_date }}"></label>
+    <label>Até: <input type="date" name="end_date" value="{{ end_date }}"></label>
+    <label>Pesquisar: <input type="text" name="q" placeholder="Palavra-chave" value="{{ search_query }}"></label>
+    <button type="submit">Filtrar</button>
+    <a href="/{{board}}">Limpar filtro</a>
+</form>
+
+<hr>
+
+{% for t in threads %}
+<div class="post">
+    <p>
+        <b>Anonymous #{{ t['anon_cookie'] }}</b> 
+        <span class="timestamp">{{ t['timestamp'] }}</span> | 
+        <span class="reply-count">{{ t['reply_count'] }} replies</span>
+
+        {% if t['anon_cookie'] == anon_cookie %}
+            <!-- Botão deletar apenas para autor -->
+            <form method="POST" action="/delete/thread/{{ t['id'] }}" style="display:inline;">
+                <button class="delete-btn" title="Deletar thread">&times;</button>
+            </form>
+        {% endif %}
+    </p>
+    <p>{{ t['content'] | safe }}</p>
+
+    {% if t['image'] %}
+        <img src="{{ url_for('static', filename='uploads/' + t['image']) }}">
+    {% endif %}
+
+    <br>
+    <a href="/thread/{{ t['id'] }}">Responder</a>
+</div>
+{% endfor %}
+
+<a href="/">Voltar</a>
+</body>
+</html>

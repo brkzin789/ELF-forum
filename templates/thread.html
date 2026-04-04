@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thread #{{ thread['id'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .delete-btn {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        .post {
+            margin-bottom: 15px;
+        }
+        textarea {
+            width: 100%;
+            max-width: 500px;
+            height: 80px;
+        }
+        form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<header class="topo">
+    <h1>ELF</h1>
+</header>
+
+<h2>Thread #{{ thread['id'] }} ({{ replies|length }} respostas)</h2>
+
+<!-- THREAD PRINCIPAL -->
+<div class="post">
+    <p>
+        <b>Anonymous #{{ thread['anon_cookie'] }}</b> 
+        <span class="timestamp">{{ thread['timestamp'] }}</span>
+
+        {% if thread['anon_cookie'] == anon_cookie %}
+            <!-- Botão deletar thread -->
+            <form method="POST" action="/delete/thread/{{ thread['id'] }}">
+                <button class="delete-btn" type="submit" title="Deletar thread">&times;</button>
+            </form>
+        {% endif %}
+    </p>
+    <p>{{ thread['content'] | safe }}</p>
+
+    {% if thread['image'] %}
+        <img src="{{ url_for('static', filename='uploads/' + thread['image']) }}">
+    {% endif %}
+</div>
+
+<hr>
+
+<!-- FORM DE RESPOSTA -->
+<form action="/reply/{{ thread['id'] }}" method="POST">
+    <textarea name="content" placeholder="Responder..."></textarea>
+    <br>
+    <button type="submit">Responder</button>
+</form>
+
+<hr>
+
+<!-- LISTA DE RESPOSTAS -->
+{% for r in replies %}
+<div class="post">
+    <p>
+        <b>Anonymous #{{ r['anon_cookie'] }}</b> 
+        <span class="timestamp">{{ r['timestamp'] }}</span>
+
+        {% if r['anon_cookie'] == anon_cookie %}
+            <!-- Botão deletar resposta -->
+            <form method="POST" action="/delete/reply/{{ r['id'] }}">
+                <button class="delete-btn" type="submit" title="Deletar resposta">&times;</button>
+            </form>
+        {% endif %}
+    </p>
+    <p>{{ r['content'] | safe }}</p>
+</div>
+{% endfor %}
+
+<a href="/{{ thread['board'] if thread.get('board') else 'dev' }}">Voltar</a>
+</body>
+</html>

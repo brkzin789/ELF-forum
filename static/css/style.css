@@ -1,0 +1,197 @@
+/* === BODY E TIPOGRAFIA === */
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* === TOPO / HEADER === */
+header {
+    background: linear-gradient(to right, #002395, #ffffff, #ed2939); /* azul, branco, vermelho */
+    padding: 15px;
+    text-align: center;
+    border-bottom: 3px solid #000;
+}
+
+header h1 {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 64px;           /* maior e chamativo */
+    font-weight: 900;
+    letter-spacing: 5px;
+    color: #002395;            /* azul da bandeira */
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+/* === TITULO BOARD === */
+h2 {
+    text-align: center;
+    color: #ed2939;             /* vermelho da bandeira */
+    margin-top: 10px;
+}
+
+/* === FORMULÁRIOS === */
+form {
+    text-align: center;
+    margin: 20px;
+}
+
+textarea {
+    width: 350px;
+    height: 80px;
+    border: 1px solid #002395;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: Arial, sans-serif;
+}
+
+input[type="file"] {
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #002395;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #ed2939;
+}
+
+/* === POSTS === */
+.post {
+    background: white;
+    border-left: 5px solid #002395;
+    border-right: 5px solid #ed2939;
+    padding: 10px;
+    margin: 15px auto;
+    width: 500px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+}
+
+.post b {
+    color: #002395;
+}
+
+/* === TIMESTAMP === */
+.timestamp {
+    color: #555;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+/* === IMAGENS === */
+img {
+    margin-top: 10px;
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+/* === LINKS === */
+a {
+    color: #ed2939;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* === QUOTES ESTILO 4CHAN === */
+a.quote {
+    color: #789922; /* verde clássico 4chan */
+    text-decoration: none;
+}
+
+a.quote:hover {
+    text-decoration: underline;
+}
+.delete-icon {
+    color: #999;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.delete-icon:hover {
+    color: #ed2939;
+}
+/* Geral dos posts */
+.post {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Timestamps */
+.timestamp {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Botão de deletar */
+.delete-btn {
+    background: none;
+    border: none;
+    color: #d00; /* vermelho suave */
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 8px;
+    transition: color 0.2s;
+}
+
+.delete-btn:hover {
+    color: #a00; /* vermelho mais escuro no hover */
+}
+
+/* Textarea de criação de threads/respostas */
+textarea {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 5px;
+    padding: 5px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+/* Botões de criar thread/resposta */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Links de respostas >>123 */
+a.quote {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a.quote:hover {
+    text-decoration: underline;
+}
+
+/* Imagens dentro de posts */
+.post img {
+    max-width: 100%;
+    margin-top: 5px;
+    border-radius: 3px;
+}

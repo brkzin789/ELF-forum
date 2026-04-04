@@ -1,0 +1,40 @@
+# ELF Forum
+
+Um fórum estilo **4chan**, feito em **Flask** com suporte a múltiplas boards, criação de threads, respostas e upload de imagens.
+
+---
+
+## Funcionalidades
+
+- Múltiplas boards (`/dev`, `/chat`, `/ideas`, `/tech`, `/games`, etc.)
+- Criação de threads e respostas
+- Upload de imagens por thread
+- Sistema anônimo com cookie (`anon_cookie`) para identificar quem pode deletar suas próprias threads ou respostas
+- Links do tipo `>>123` transformados em citações clicáveis
+- Filtros por data e pesquisa de conteúdo
+- Deleção de threads e replies pelo próprio autor
+- Estrutura de banco de dados SQLite (`database.db`), facilmente recriável com `create_db.py`
+
+---
+
+## Estrutura de Pastas
+
+
+
+---
+
+## Pré-requisitos
+
+- Python 3.10+  
+- Flask  
+- Werkzeug (já vem com Flask)  
+- sqlite3 (já vem com Python)  
+
+---
+
+## Como rodar localmente
+
+1. Clone o projeto:
+   ```bash
+   git clone https://github.com/SEU_USUARIO/ELF.git
+   cd ELF
