@@ -1,80 +1,73 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>/{{board}}/ - ELF</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <style>
-        .delete-btn {
-            background: none;
-            border: none;
-            color: red;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
-        }
-        .filter-form {
-            text-align: center;
-            margin: 15px 0;
-        }
-        .filter-form input {
-            margin: 0 5px;
-            padding: 3px 5px;
-        }
-    </style>
-</head>
-<body>
-<header>
-    <h1>ELF</h1>
-</header>
+{% extends "base.html" %}
+{% block content %}
 
-<h2>/{{board}}/</h2>
+<div class="box" style="position: relative;">
+    <a href="/" style="text-decoration: none; color: var(--green); font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 10px;">
+        ← VOLTAR PARA A PÁGINA PRINCIPAL
+    </a>
+    
+    <h2 style="margin:0; color: var(--blue);">/{{board}}/</h2>
+    
+    <form method="POST" enctype="multipart/form-data" style="margin-top:15px;">
+        <textarea name="content" placeholder="O que você está pensando?" required style="min-height: 100px;"></textarea>
+        <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="display: flex; flex-direction: column;">
+                <label style="font-size: 10px; color: #8b949e; margin-bottom: 2px;">Anexar imagem:</label>
+                <input type="file" name="image" accept="image/*" style="font-size:12px;">
+            </div>
+            <button type="submit">Criar Thread</button>
+        </div>
+    </form>
+</div>
 
-<!-- FORMULÁRIO DE CRIAR THREAD -->
-<form method="POST" enctype="multipart/form-data">
-    <textarea name="content" placeholder="Escreva algo..."></textarea>
-    <br>
-    <input type="file" name="image">
-    <br>
-    <button>Criar Thread</button>
-</form>
-
-<!-- FILTRO DE DATAS E PESQUISA -->
-<form method="GET" class="filter-form">
-    <label>De: <input type="date" name="start_date" value="{{ start_date }}"></label>
-    <label>Até: <input type="date" name="end_date" value="{{ end_date }}"></label>
-    <label>Pesquisar: <input type="text" name="q" placeholder="Palavra-chave" value="{{ search_query }}"></label>
-    <button type="submit">Filtrar</button>
-    <a href="/{{board}}">Limpar filtro</a>
-</form>
-
-<hr>
+<div class="box" style="padding:10px;">
+    <form method="GET" style="display:flex; gap:10px; font-size:12px; align-items: center;">
+        <input type="text" name="q" placeholder="Pesquisar nesta board..." value="{{ request.args.get('q', '') }}" style="flex:1; background:#0d1117; color:white; border:1px solid var(--card-border); padding:8px; border-radius: 4px;">
+        <button type="submit" style="padding:6px 15px; background: var(--card-border);">Filtrar</button>
+        {% if request.args.get('q') %}
+            <a href="/{{board}}" style="color: var(--red); text-decoration: none; font-weight: bold;">[X] Limpar</a>
+        {% endif %}
+    </form>
+</div>
 
 {% for t in threads %}
 <div class="post">
-    <p>
-        <b>Anonymous #{{ t['anon_cookie'] }}</b> 
-        <span class="timestamp">{{ t['timestamp'] }}</span> | 
-        <span class="reply-count">{{ t['reply_count'] }} replies</span>
-
+    <div class="post-header">
+        <span style="color: var(--green); font-weight: bold;">Anonymous</span> 
+        <span style="color: #8b949e;">#{{ t['anon_cookie'] }}</span> 
+        • <small>{{ t['timestamp'] }}</small> 
+        • <span style="color: var(--blue);">{{ t['reply_count'] }} respostas</span>
+        
         {% if t['anon_cookie'] == anon_cookie %}
-            <!-- Botão deletar apenas para autor -->
-            <form method="POST" action="/delete/thread/{{ t['id'] }}" style="display:inline;">
-                <button class="delete-btn" title="Deletar thread">&times;</button>
+            <form method="POST" action="/delete/thread/{{ t['id'] }}" style="display:inline; float: right;">
+                <button class="delete-btn" title="Deletar minha postagem" onclick="return confirm('Tem certeza que deseja apagar?')">×</button>
             </form>
         {% endif %}
-    </p>
-    <p>{{ t['content'] | safe }}</p>
+    </div>
+
+    <div style="margin: 15px 0; line-height: 1.6; word-wrap: break-word;">
+        {{ t['content'] | safe }}
+    </div>
 
     {% if t['image'] %}
-        <img src="{{ url_for('static', filename='uploads/' + t['image']) }}">
+        <div style="margin-bottom: 15px;">
+            <a href="{{ url_for('static', filename='uploads/' + t['image']) }}" target="_blank">
+                <img src="{{ url_for('static', filename='uploads/' + t['image']) }}" 
+                     style="max-width:250px; max-height: 400px; display:block; border-radius:4px; border: 1px solid var(--card-border);">
+            </a>
+        </div>
     {% endif %}
 
-    <br>
-    <a href="/thread/{{ t['id'] }}">Responder</a>
+    <div style="border-top: 1px solid #21262d; padding-top: 10px;">
+        <a href="/thread/{{ t['id'] }}" style="color:var(--blue); font-size:13px; text-decoration:none; font-weight: bold;">
+            [ Ver Thread Completa / Responder ]
+        </a>
+    </div>
+</div>
+{% else %}
+<div class="box" style="text-align: center; padding: 40px; color: #8b949e;">
+    <p>Nenhuma conversa encontrada aqui ainda.</p>
 </div>
 {% endfor %}
 
-<a href="/">Voltar</a>
-</body>
-</html>
+{% endblock %}
