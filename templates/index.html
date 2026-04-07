@@ -1,24 +1,121 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Fórum ELF</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-<header>
-    <h1>ELF</h1>
-</header>
+{% extends "base.html" %}
+{% block content %}
 
-<h2>Boards</h2>
+<div class="box" style="border-left: 4px solid var(--blue); margin-bottom: 25px;">
+    <h2 style="margin:0;">Bem-vindo ao ELF</h2>
+    <p style="color: #8b949e; font-size: 14px; margin-top: 5px;">
+        O seu portal de discussões e tecnologia. Explore as boards na lateral para interagir.
+    </p>
+</div>
 
-<ul>
-    {% for b in boards %}
-        <li>
-            <a href="/{{b}}">/{{b}}/</a>
-        </li>
+<div style="margin-bottom: 15px; padding-left: 5px;">
+    <h3 style="color: var(--green); text-transform: uppercase; font-size: 14px; letter-spacing: 1px;">
+        ⚡ Feed Global de Notícias (Tempo Real)
+    </h3>
+</div>
+
+<div class="news-feed-container">
+    {% for item in feed_news %}
+    <div class="post news-card">
+        <div class="post-header" style="border-bottom: none; margin-bottom: 8px;">
+            <span style="color: #8b949e; font-size: 10px; font-weight: bold;">NOTÍCIA REAL</span>
+        </div>
+        
+        <h3 style="margin: 0 0 12px 0;">
+            <a href="{{ item.link }}" target="_blank" style="color: var(--blue); text-decoration: none; font-size: 1.1rem; line-height: 1.4;">
+                {{ item.title }}
+            </a>
+        </h3>
+
+        {% if item.img %}
+        <div style="margin-bottom: 15px; overflow: hidden; border-radius: 6px; border: 1px solid #30363d;">
+            <img src="{{ item.img }}" alt="Thumbnail" style="width: 100%; height: auto; display: block; object-fit: cover; max-height: 350px;">
+        </div>
+        {% endif %}
+        
+        <div class="news-body">
+            <p style="font-size: 14px; color: #c9d1d9; line-height: 1.6; margin: 5px 0;">
+                <span class="text-preview">{{ item.desc[:150] }}...</span>
+                <span class="text-full" style="display: none;">{{ item.desc }}</span>
+            </p>
+            <button onclick="expandNews(this)" class="expand-btn">[+] Ler mais no ELF</button>
+        </div>
+        
+        <div style="text-align: right; margin-top: 15px;">
+            <a href="{{ item.link }}" target="_blank" class="read-more-btn">
+                Ir para fonte oficial →
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <div class="box" style="text-align: center; color: #8b949e;">
+        <p>Buscando atualizações nos servidores de notícias...</p>
+    </div>
     {% endfor %}
-</ul>
+</div>
 
-</body>
-</html>
+<style>
+    .news-card {
+        border: 1px solid #30363d;
+        background-color: #161b22;
+        margin-bottom: 20px;
+        transition: all 0.2s ease-in-out;
+        padding: 15px;
+    }
+
+    .expand-btn {
+        background: none;
+        border: none;
+        color: var(--blue);
+        cursor: pointer;
+        font-size: 12px;
+        font-family: inherit;
+        padding: 0;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+    .expand-btn:hover { text-decoration: underline; }
+
+    .read-more-btn {
+        font-size: 11px; 
+        color: var(--green); 
+        text-decoration: none; 
+        font-weight: bold; 
+        border: 1px solid var(--green); 
+        padding: 5px 10px; 
+        border-radius: 4px;
+        transition: 0.2s;
+    }
+
+    .read-more-btn:hover {
+        background-color: var(--green);
+        color: #000;
+    }
+
+    .news-feed-container { animation: slideUp 0.4s ease-out; }
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<script>
+function expandNews(btn) {
+    const parent = btn.parentElement;
+    const preview = parent.querySelector('.text-preview');
+    const full = parent.querySelector('.text-full');
+    
+    if (full.style.display === "none") {
+        full.style.display = "inline";
+        preview.style.display = "none";
+        btn.innerHTML = "[-] Recolher";
+    } else {
+        full.style.display = "none";
+        preview.style.display = "inline";
+        btn.innerHTML = "[+] Ler mais no ELF";
+    }
+}
+</script>
+
+{% endblock %}
