@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ELF Forum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>ELF</h1>
+    </header>
+
+    <div class="container">
+        <aside>
+            <div class="box">
+                <h3>Boards</h3>
+                {% for b in boards %}
+                    <a href="/{{b}}" class="nav-link">/{{b}}/</a>
+                {% endfor %}
+            </div>
+        </aside>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <aside>
+            <div class="box">
+                <h3>Notícias Reais</h3>
+                <ul style="padding:0; list-style:none; font-size:13px;">
+                {% for item in news %}
+                    <li style="margin-bottom:10px;">
+                        <a href="{{item.link}}" target="_blank" style="color:var(--text); text-decoration:none; border-bottom:1px solid #333;">{{item.title}}</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="box">
+                <h3>Estatísticas</h3>
+                <p style="font-size:13px;">Posts totais: <b>{{total_posts}}</b></p>
+                <p style="font-size:13px;">Online: <b style="color:var(--green);">{{online}}</b></p>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>
