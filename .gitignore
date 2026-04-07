@@ -1,0 +1,45 @@
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# =====================
+# Database
+# =====================
+database.db
+
+# =====================
+# Flask / uploads / media
+# =====================
+static/uploads/
+instance/
+
+# =====================
+# IDE / editor
+# =====================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.DS_Store
+
+# =====================
+# Logs and temporary files
+# =====================
+*.log
+*.tmp
+*.bak
+
+# =====================
+# OS generated files
+# =====================
+Thumbs.db
+desktop.ini
