@@ -1,86 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Thread #{{ thread['id'] }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <style>
-        .delete-btn {
-            background: none;
-            border: none;
-            color: red;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
-        }
-        .post {
-            margin-bottom: 15px;
-        }
-        textarea {
-            width: 100%;
-            max-width: 500px;
-            height: 80px;
-        }
-        form {
-            display: inline;
-        }
-    </style>
-</head>
-<body>
-<header class="topo">
-    <h1>ELF</h1>
-</header>
-
-<h2>Thread #{{ thread['id'] }} ({{ replies|length }} respostas)</h2>
-
-<!-- THREAD PRINCIPAL -->
-<div class="post">
-    <p>
-        <b>Anonymous #{{ thread['anon_cookie'] }}</b> 
-        <span class="timestamp">{{ thread['timestamp'] }}</span>
-
+{% extends "base.html" %}
+{% block content %}
+<div class="post" style="border: 2px solid var(--blue);">
+    <div class="post-header">
+        <b>OP #{{ thread['anon_cookie'] }}</b> • {{ thread['timestamp'] }}
         {% if thread['anon_cookie'] == anon_cookie %}
-            <!-- Botão deletar thread -->
-            <form method="POST" action="/delete/thread/{{ thread['id'] }}">
-                <button class="delete-btn" type="submit" title="Deletar thread">&times;</button>
+            <form method="POST" action="/delete/thread/{{ thread['id'] }}" style="display:inline;">
+                <button class="delete-btn">×</button>
             </form>
         {% endif %}
-    </p>
+    </div>
     <p>{{ thread['content'] | safe }}</p>
-
     {% if thread['image'] %}
-        <img src="{{ url_for('static', filename='uploads/' + thread['image']) }}">
+        <img src="{{ url_for('static', filename='uploads/' + thread['image']) }}" style="max-width:100%; border-radius:4px;">
     {% endif %}
 </div>
 
-<hr>
+<div class="box">
+    <form action="/reply/{{ thread['id'] }}" method="POST">
+        <textarea name="content" placeholder="Sua resposta..."></textarea>
+        <button type="submit" style="margin-top:10px;">Enviar Resposta</button>
+    </form>
+</div>
 
-<!-- FORM DE RESPOSTA -->
-<form action="/reply/{{ thread['id'] }}" method="POST">
-    <textarea name="content" placeholder="Responder..."></textarea>
-    <br>
-    <button type="submit">Responder</button>
-</form>
-
-<hr>
-
-<!-- LISTA DE RESPOSTAS -->
 {% for r in replies %}
-<div class="post">
-    <p>
-        <b>Anonymous #{{ r['anon_cookie'] }}</b> 
-        <span class="timestamp">{{ r['timestamp'] }}</span>
-
+<div class="post" style="margin-left: 20px; border-left: 3px solid #333;">
+    <div class="post-header">
+        <b>Anonymous #{{ r['anon_cookie'] }}</b> • {{ r['timestamp'] }}
         {% if r['anon_cookie'] == anon_cookie %}
-            <!-- Botão deletar resposta -->
-            <form method="POST" action="/delete/reply/{{ r['id'] }}">
-                <button class="delete-btn" type="submit" title="Deletar resposta">&times;</button>
+            <form method="POST" action="/delete/reply/{{ r['id'] }}" style="display:inline;">
+                <button class="delete-btn">×</button>
             </form>
         {% endif %}
-    </p>
+    </div>
     <p>{{ r['content'] | safe }}</p>
 </div>
 {% endfor %}
 
-<a href="/{{ thread['board'] if thread.get('board') else 'dev' }}">Voltar</a>
-</body>
-</html>
+<a href="/{{ thread['board'] }}" style="color:var(--text); font-size:13px;">← Voltar para /{{thread['board']}}/</a>
+{% endblock %}
